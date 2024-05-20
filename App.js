@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Image } from 'react-native';
 import CustomButton from './tombol';
-import Teks from './text';
+import Teks from './text'; 
 
 export default function App() {
   return (
