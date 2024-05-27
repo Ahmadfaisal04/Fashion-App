@@ -1,19 +1,43 @@
 import React from 'react';
-import { SafeAreaView, View, Image } from 'react-native';
-import CustomButton from './tombol';
-import Teks from './text'; 
+import { View, Text } from 'react-native';
 
-export default function App() {
+const CustomButton = () => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Teks />
-        <Image 
-          source={require('./assets/logo.png')}  // Ensure the path to your image is correct
-          style={{ width: 300, height: 300, marginVertical: 90 }}  // Adjust the size as needed
-        />
-        <CustomButton />
-      </View>
-    </SafeAreaView>
+    <View style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'flex-end',
+      flexDirection: 'row',
+      padding: 20,
+      marginBottom: 80
+    }}>
+      
+      <ButtonComponent backgroundColor='blue' text='Register' />
+    </View>
   );
 }
+
+
+const ButtonComponent = ({backgroundColor, text}) => {
+  return (
+      <View style={{
+          backgroundColor: backgroundColor,
+          borderRadius: 10,
+          marginLeft: 10,
+          width: 100
+      }}>
+
+      <Text style={{
+          color: 'white',
+          fontSize: 25,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          lineHeight: 70
+      }}>
+          {text}
+      </Text>
+  </View>
+  )
+}
+
+export default CustomButton;
