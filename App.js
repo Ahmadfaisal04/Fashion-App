@@ -1,43 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import SignUp from './SignUp';
+import Login from './Login';
+import ForgotPassword from './Forgot-Password';
 
-const CustomButton = () => {
+
+const App = () => {
   return (
-    <View style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'flex-end',
-      flexDirection: 'row',
-      padding: 20,
-      marginBottom: 80
-    }}>
-      
-      <ButtonComponent backgroundColor='blue' text='Register' />
+    <View>
+      <SafeAreaView>
+        {/* <SignUp />  */}
+        {/* <Login /> */}
+        <ForgotPassword />
+       
+      </SafeAreaView>
     </View>
   );
 }
 
-
-const ButtonComponent = ({backgroundColor, text}) => {
-  return (
-      <View style={{
-          backgroundColor: backgroundColor,
-          borderRadius: 10,
-          marginLeft: 10,
-          width: 100
-      }}>
-
-      <Text style={{
-          color: 'white',
-          fontSize: 25,
-          fontWeight: 'bold',
-          textAlign: 'center',
-          lineHeight: 70
-      }}>
-          {text}
-      </Text>
-  </View>
-  )
-}
-
-export default CustomButton;
+export default App;
