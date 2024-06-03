@@ -24,7 +24,10 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/michat.png"
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
