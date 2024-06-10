@@ -36,7 +36,7 @@ const ForgotPassword = () => {
             </View>
 
             <View style={{
-                marginTop: 40,
+                marginTop: 20,
             }}>
             <ButtonComponent backgroundColor="#FF0000" text="SEND" />
             </View>

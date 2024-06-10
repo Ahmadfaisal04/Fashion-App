@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import {SafeAreaView } from 'react-native-safe-area-context';
+import { View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Headline from '../component/Headline';
 import InputText from '../component/Input-text';
 import ButtonComponent from '../component/Button';
@@ -9,51 +10,58 @@ import IconButton from '../component/Icon-Button';
 
 
 const Login = () => {
-
+    const navigation = useNavigation();
     return (
         <SafeAreaView>
             <View>
-              <View style={{
-                marginBottom: 50,
-              }}>
-                <Headline text="Login" />
-              </View>
-
-            <View style={{}}>
-                <InputText placeholder="Email" />
-                <InputText placeholder="Password" />
-            </View>
-
-            <View style={{
-                marginTop: -10,
-                marginLeft: 150,
-            }}>
-                <Konfirmasi text="Forgot your password?" />
-            </View>
-
-            <View style={{}}>
-            <ButtonComponent backgroundColor="#FF0000" text="LOGIN" />
-            </View>
-
-            <View style={{
-                marginTop: 20,
-            }}>
-                <Konfirmasi text="Or login with social account" />
-            </View>
-
-            <View style={{
-                marginTop: 10,
-            }}>
                 <View style={{
-                    flexDirection: 'row',
-                    gap: 20,
-                    marginTop: 10,
-                    justifyContent: 'center',
+                    marginBottom: 50,
                 }}>
-                    <IconButton imageSource={require('../assets/google.png')} />
-                    <IconButton imageSource={require('../assets/facebook.png')} />
+                    <Headline text="Login" />
                 </View>
-            </View>
+
+                <View style={{}}>
+                    <InputText placeholder="Email" />
+                    <InputText placeholder="Password" />
+                </View>
+
+                <View style={{
+                    marginTop: -10,
+                    marginLeft: 130,
+                }}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Forgot Password")}>
+                        <Konfirmasi text="Forgot your password?" />
+                        <Image source={require('../assets/round-arrow_right_alt-24px.png')} style=
+                        {{
+                            marginLeft: 210,
+                            marginTop: -24.5, 
+                        }} />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{}}>
+                    <ButtonComponent backgroundColor="#FF0000" text="LOGIN" />
+                </View>
+
+                <View style={{
+                    marginTop: 80,
+                }}>
+                    <Konfirmasi text="Or login with social account" />
+                </View>
+
+                <View style={{
+                    marginTop: 0,
+                }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        gap: 20,
+                        marginTop: -25,
+                        justifyContent: 'center',
+                    }}>
+                        <IconButton imageSource={require('../assets/google.png')} />
+                        <IconButton imageSource={require('../assets/facebook.png')} />
+                    </View>
+                </View>
             </View>
         </SafeAreaView>
     )

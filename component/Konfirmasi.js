@@ -22,7 +22,10 @@ const Konfirmasi = ({ text = "Default Text", color = "black", fontSize = 13 }) =
     return (
         <SafeAreaView>
             <View style={styles.center}>
-                <Text style={[styles.text, { color, fontSize: Number(fontSize) }]}>
+                <Text style={[styles.text, { 
+                    color, 
+                    fontSize: Number(fontSize) 
+                    }]}>
                     {text}
                 </Text>
             </View>
