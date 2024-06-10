@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
-const InputText = ({ placeholder, borderColor, placeholderTextColor }) => {
+const InputText = ({ placeholder, borderColor, placeholderTextColor, passwordRules }) => {
     const [fontsLoaded] = useFonts({
         'Bold': require('../assets/fonts/Metropolis-Bold.otf'),
         'Medium': require('../assets/fonts/Metropolis-Medium.otf'),
@@ -23,6 +23,7 @@ const InputText = ({ placeholder, borderColor, placeholderTextColor }) => {
             <TextInput
                 placeholder={placeholder}
                 placeholderTextColor={placeholderTextColor}
+                secureTextEntry={passwordRules === '*' ? true : false}
                 style={[styles.input, { borderColor, fontFamily: 'Medium' }]}
             />
         </View>

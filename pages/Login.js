@@ -22,7 +22,7 @@ const Login = () => {
 
                 <View style={{}}>
                     <InputText placeholder="Email" />
-                    <InputText placeholder="Password" />
+                    <InputText placeholder="Password" passwordRules="*" />
                 </View>
 
                 <View style={{

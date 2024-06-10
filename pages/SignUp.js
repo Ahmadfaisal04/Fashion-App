@@ -23,7 +23,7 @@ const SignUp = () => {
                 <View style={{}}>
                     <InputText placeholder="Name" />
                     <InputText placeholder="Email" />
-                    <InputText placeholder="Password" />
+                    <InputText placeholder="Password" passwordRules="*"/>
                 </View>
 
                 <View style={{
