@@ -7,7 +7,9 @@ import ButtonComponent from '../component/Button';
 import Konfirmasi from '../component/Konfirmasi';
 import IconButton from '../component/Icon-Button';
 
+
 const SignUp = () => {
+  
     return (
         <SafeAreaView>
             <View>
@@ -24,21 +26,19 @@ const SignUp = () => {
             </View>
 
             <View style={{
-                marginTop: 10,
+                marginTop: -15,
                 marginLeft: 150,
             }}>
                 <Konfirmasi text="Already have an account?" fontSize={14} />
             </View>
 
             <View style={{
-                marginTop: 40,
+                marginTop: -10,
             }}>
             <ButtonComponent backgroundColor="#FF0000" text="SIGN UP" />
             </View>
 
-            <View style={{
-                marginTop: 95
-            }}>
+            <View style={{}}>
                 <Konfirmasi text="Or sign up with social account" fontSize={14} />
             </View>
 
@@ -48,11 +48,11 @@ const SignUp = () => {
                 <View style={{
                     flexDirection: 'row',
                     gap: 20,
-                    marginTop: 10,
+                    marginTop: -25,
                     justifyContent: 'center',
                 }}>
-                    <IconButton imageSource={require('./assets/google.png')} />
-                    <IconButton imageSource={require('./assets/facebook.png')} />
+                    <IconButton imageSource={require('../assets/google.png')} />
+                    <IconButton imageSource={require('../assets/facebook.png')} />
                 </View>
             </View>
             </View>

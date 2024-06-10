@@ -1,18 +1,31 @@
 import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 
-const InputText = ({ placeholder, borderColor, placeholderTextColor}) => {
+const InputText = ({ placeholder, borderColor, placeholderTextColor }) => {
+    const [fontsLoaded] = useFonts({
+        'Bold': require('../assets/fonts/Metropolis-Bold.otf'),
+        'Medium': require('../assets/fonts/Metropolis-Medium.otf'),
+        'SemiBold': require('../assets/fonts/Metropolis-SemiBold.otf'),
+        'Black': require('../assets/fonts/Metropolis-Black.otf'),
+    });
+
+    if (!fontsLoaded) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.errorText}>Font tidak ditemukan!!!</Text>
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
             <TextInput
                 placeholder={placeholder}
                 placeholderTextColor={placeholderTextColor}
-                style={[styles.input, { borderColor }]}
+                style={[styles.input, { borderColor, fontFamily: 'Medium' }]}
             />
-
         </View>
-
     );
 };
 
@@ -27,11 +40,12 @@ const styles = StyleSheet.create({
         width: 343,
         borderWidth: 1,
         paddingHorizontal: 8,
-        borderRadius: 4
-
+        borderRadius: 4,
+        fontFamily: 'Medium',
     },
-    text: {
+    errorText: {
         fontSize: 16,
+        color: 'red',
     },
 });
 

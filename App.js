@@ -1,37 +1,43 @@
-import { Text, View } from 'react-native';
-import React from 'react';
-import { useFonts } from 'expo-font';
+// In App.js in a new project
 
-const App = () => {
-  const [fontsLoaded] = useFonts({
-   'Metro-Bold' : require('./assets/fonts/Metropolis-Bold.otf'),
-   'Metro-Medium' : require('./assets/fonts/Metropolis-Medium.otf'),
-   'SemiBold' : require('./assets/fonts/Metropolis-SemiBold.otf'),
-   'Black' : require('./assets/fonts/Metropolis-Black.otf'),
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-  });
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import ForgotPassword from './pages/ForgotPassword';
+import { Button } from 'react-native';
 
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Font tidak di temukan!!!</Text>
-      </View>
-    );
-  }
-
+function HomeScreen({navigation}) {
   return (
-    <View style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <Text>Font Bisa</Text>
-      <Text style={{ fontFamily: 'Metro-Bold', fontSize: 30 }}>Metro Bold</Text>
-      <Text style={{ fontFamily: 'Metro-Medium', fontSize: 30 }}>Metro Medium</Text>
-      <Text style={{ fontFamily: 'SemiBold', fontSize: 30 }}>Semi Bold</Text>
-      <Text style={{ fontFamily: 'Black', fontSize: 30 }}>Black</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+
+      <Button
+      title="Login"
+      onPress={() => navigation.navigate('ForgotPassword')}
+
+       />
+
     </View>
   );
-};
+}
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;

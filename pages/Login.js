@@ -1,13 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
 import {SafeAreaView } from 'react-native-safe-area-context';
-import Headline from './component/Headline';
-import InputText from './component/Input-text';
-import ButtonComponent from './component/Button';
-import Konfirmasi from './component/Konfirmasi';
-import IconButton from './component/Icon-Button';
+import Headline from '../component/Headline';
+import InputText from '../component/Input-text';
+import ButtonComponent from '../component/Button';
+import Konfirmasi from '../component/Konfirmasi';
+import IconButton from '../component/Icon-Button';
+
 
 const Login = () => {
+
     return (
         <SafeAreaView>
             <View>
@@ -23,20 +25,18 @@ const Login = () => {
             </View>
 
             <View style={{
-                marginTop: 10,
+                marginTop: -10,
                 marginLeft: 150,
             }}>
                 <Konfirmasi text="Forgot your password?" />
             </View>
 
-            <View style={{
-                marginTop: 40,
-            }}>
+            <View style={{}}>
             <ButtonComponent backgroundColor="#FF0000" text="LOGIN" />
             </View>
 
             <View style={{
-                marginTop: 150
+                marginTop: 20,
             }}>
                 <Konfirmasi text="Or login with social account" />
             </View>
@@ -50,8 +50,8 @@ const Login = () => {
                     marginTop: 10,
                     justifyContent: 'center',
                 }}>
-                    <IconButton imageSource={require('./assets/google.png')} />
-                    <IconButton imageSource={require('./assets/facebook.png')} />
+                    <IconButton imageSource={require('../assets/google.png')} />
+                    <IconButton imageSource={require('../assets/facebook.png')} />
                 </View>
             </View>
             </View>
