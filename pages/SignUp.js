@@ -12,7 +12,7 @@ import IconButton from '../component/Icon-Button';
 const SignUp = () => {
     const navigation = useNavigation();
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
             <View>
                 <View style={{
                     marginBottom: 50,
@@ -42,9 +42,9 @@ const SignUp = () => {
 
 
                 <View style={{ marginTop: 5 }}>
-                   
+               
                         <ButtonComponent backgroundColor="#FF0000" text="SIGN UP" />
-                  
+                     
                 </View>
 
 

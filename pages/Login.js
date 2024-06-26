@@ -12,7 +12,7 @@ import IconButton from '../component/Icon-Button';
 const Login = () => {
     const navigation = useNavigation();
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
             <View>
                 <View style={{
                     marginBottom: 50,
@@ -40,7 +40,9 @@ const Login = () => {
                 </View>
 
                 <View style={{}}>
+                    <TouchableOpacity onPress={() => navigation.navigate("MyTabs")}>
                     <ButtonComponent backgroundColor="#FF0000" text="LOGIN" />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={{

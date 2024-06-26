@@ -3,23 +3,21 @@ import { ImageBackground, View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Headline from '../component/Headline';
-import InputText from '../component/Input-text';
 import ButtonComponent from '../component/Button';
-import Konfirmasi from '../component/Konfirmasi';
-import IconButton from '../component/Icon-Button';
+
 
 const VisualSearch = () => {
     const navigation = useNavigation();
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <ImageBackground 
-                source={require('../assets/banner/visual_banner.png')} 
+            <ImageBackground
+                source={require('../assets/banner/visual_banner.png')}
                 style={styles.backgroundImage}
             >
                 <View style={{
-                   marginBottom: 360,
-                   textAlign: 'left',
+                    marginBottom: 360,
+                    textAlign: 'left',
                 }}>
                     <Headline text="Search for an outfit by taking a photo or uploading an image" color="#fff" fontSize={23} />
                 </View>
@@ -32,10 +30,8 @@ const VisualSearch = () => {
 
                 <View style={{
                     marginTop: -110,
-                   
                 }}>
-                <ButtonComponent text="UPLOAD AN IMAGE"  borderColor="#FFFF" borderWidth={1} />
-
+                    <ButtonComponent text="UPLOAD AN IMAGE" borderColor="#FFFF" borderWidth={1} />
                 </View>
             </ImageBackground>
         </SafeAreaView>
