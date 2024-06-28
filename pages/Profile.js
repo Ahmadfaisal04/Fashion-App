@@ -18,7 +18,7 @@ const ProfileItem = ({ title, subtitle }) => (
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.subtitle}>{subtitle}</Text>
         </View>
-        <Text style={styles.arrow}>></Text>
+        <Image source={require('../assets/icon/right-icon.png')} style={styles.itemArrow} />
     </TouchableOpacity>
 );
 
@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
         color: '#888',
         fontFamily: 'Medium',
     },
-    arrow: {
-        fontSize: 18,
-        color: '#888',
+    itemArrow: {
+        width: 24,
+        height: 24,
     },
 });
 
