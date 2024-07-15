@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
-const InputText = ({ placeholder, borderColor, placeholderTextColor, passwordRules }) => {
+const InputText = ({ placeholder, borderColor, placeholderTextColor, passwordRules, value, onChangeText }) => {
     const [fontsLoaded] = useFonts({
         'Bold': require('../assets/fonts/Metropolis-Bold.otf'),
         'Medium': require('../assets/fonts/Metropolis-Medium.otf'),
         'SemiBold': require('../assets/fonts/Metropolis-SemiBold.otf'),
         'Black': require('../assets/fonts/Metropolis-Black.otf'),
     });
+
+    const [inputValue, setInputValue] = useState(value);
+
+    const handleTextChange = (text) => {
+        setInputValue(text);
+        onChangeText(text);
+    };
 
     if (!fontsLoaded) {
         return (
@@ -23,6 +30,8 @@ const InputText = ({ placeholder, borderColor, placeholderTextColor, passwordRul
             <TextInput
                 placeholder={placeholder}
                 placeholderTextColor={placeholderTextColor}
+                value={inputValue}
+                onChangeText={handleTextChange}
                 secureTextEntry={passwordRules === '*' ? true : false}
                 style={[styles.input, { borderColor, fontFamily: 'Medium' }]}
             />
