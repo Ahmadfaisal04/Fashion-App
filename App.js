@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
 import HomeAktif from './assets/icon/home-activated.png';
 import HomeNonAktif from './assets/icon/home-inactive.png';
 import ShopAktif from './assets/icon/shop-activated.png';
@@ -25,9 +26,8 @@ import Bag from './pages/Bag';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import Camera from './pages/Camera';
-import HomeMain from './HomeMain';
+import HomeMain from './pages/HomeMain';
 import CategoriesScreen from './pages/Categories';
-import FiltersScreen from './pages/Filter';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -110,13 +110,12 @@ function MyTabs() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Filter">
-        <Stack.Screen name="Filter" component={FiltersScreen} />
+      <Stack.Navigator initialRouteName="SignUp">
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="HomeMain" component={HomeMain} />
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false}}/>
+        <Stack.Screen name="HomeMain" component={HomeMain}  options={{ headerShown: false}} />
         <Stack.Screen name="Forgot Password" component={ForgotPassword} />
         <Stack.Screen name="VisualSearch" component={VisualSearch} />
         <Stack.Screen name="Shop" component={Shop} />

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const data = [
     { id: '1', title: 'My orders', subtitle: 'Already have 12 orders' },
@@ -23,6 +24,30 @@ const ProfileItem = ({ title, subtitle }) => (
 );
 
 const ProfileScreen = () => {
+    const [userName, setUserName] = useState('');
+    const [nim, setNim] = useState('');
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    const fetchUserData = async () => {
+        try {
+            const storedUserName = await AsyncStorage.getItem("userName");
+            const storedNim = await AsyncStorage.getItem("userNim");
+
+            if (storedUserName !== null) {
+                setUserName(storedUserName);
+            }
+
+            if (storedNim !== null) {
+                setNim(storedNim);
+            }
+        } catch (error) {
+            console.log("Error retrieving user data:", error.message);
+        }
+    };
+
     const [fontsLoaded] = useFonts({
         'Bold': require('../assets/fonts/Metropolis-Bold.otf'),
         'Medium': require('../assets/fonts/Metropolis-Medium.otf'),
@@ -46,10 +71,10 @@ const ProfileScreen = () => {
             <View style={styles.profileHeader}>
                 <Text style={styles.profileTitle}>My profile</Text>
                 <View style={styles.profileInfo}>
-                    <Image source={require('../assets/Faisal.jpeg')} style={styles.profileImage} />
+                    <Image source={{ uri: `https://simakad.unismuh.ac.id/upload/mahasiswa/${nim}.jpg` }} style={styles.profileImage} />
                     <View>
-                        <Text style={styles.profileName}>Ahmad Faisal</Text>
-                        <Text style={styles.profileEmail}>Ahmadfaisal@gmail.com</Text>
+                        <Text style={styles.profileName}>{userName}</Text>
+                        <Text style={styles.profileEmail}>{nim}</Text>
                     </View>
                 </View>
             </View>
@@ -74,10 +99,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingTop: 10,
-
-    },
-    time: {
-        fontSize: 18,
     },
     searchIcon: {
         width: 24,
@@ -135,6 +156,10 @@ const styles = StyleSheet.create({
     itemArrow: {
         width: 24,
         height: 24,
+    },
+    errorText: {
+        fontSize: 16,
+        color: 'red',
     },
 });
 

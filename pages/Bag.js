@@ -6,6 +6,7 @@ const Bag = () => {
     <View style={styles.container}>
       <Text>Ini Halaman Bag</Text>
     </View>
+    
   );
 };
 

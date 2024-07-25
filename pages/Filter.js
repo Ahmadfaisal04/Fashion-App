@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Button, ScrollView } from 'react-native';
-import RangeSlider from 'react-native-range-slider-expo'; // Perbarui impor ini
+// import RangeSlider from 'react-native-range-slider-expo';
 
 const FiltersScreen = () => {
   const [priceRange, setPriceRange] = useState([78, 143]);

@@ -7,7 +7,7 @@ const HomeMain = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <ImageBackground source={require('./assets/banner/main1.png')} style={styles.image}>
+      <ImageBackground source={require('../assets/banner/main1.png')} style={styles.image}>
         <Text style={styles.imageText}>New collection</Text>
       </ImageBackground>
       <View style={styles.row}>
@@ -15,12 +15,12 @@ const HomeMain = ({ navigation }) => {
           <View style={[styles.box, { backgroundColor: 'white' }]}>
             <Text style={[styles.text, { color: 'red' }]}>Summer sale</Text>
           </View>
-          <ImageBackground source={require('./assets/banner/main3.png')} style={styles.imageSmall}>
+          <ImageBackground source={require('../assets/banner/main3.png')} style={styles.imageSmall}>
             <Text style={styles.imageText}>Black</Text>
           </ImageBackground>
         </View>
         <View style={styles.column}>
-          <ImageBackground source={require('./assets/banner/main2.png')} style={styles.imageMan}>
+          <ImageBackground source={require('../assets/banner/main2.png')} style={styles.imageMan}>
             <Text style={styles.imageText}>Men’s hoodies</Text>
           </ImageBackground>
         </View>

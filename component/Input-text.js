@@ -31,6 +31,7 @@ const InputText = ({ placeholder, borderColor, placeholderTextColor, passwordRul
                 placeholder={placeholder}
                 placeholderTextColor={placeholderTextColor}
                 value={inputValue}
+                
                 onChangeText={handleTextChange}
                 secureTextEntry={passwordRules === '*' ? true : false}
                 style={[styles.input, { borderColor, fontFamily: 'Medium' }]}
