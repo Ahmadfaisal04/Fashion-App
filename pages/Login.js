@@ -59,7 +59,7 @@ const Login = () => {
 
         <View>
           <InputText
-            placeholder="Email"
+            placeholder="Nim"
             borderColor="gray"
             placeholderTextColor="gray"
             onChangeText={(text) => setFormLogin({ ...formLogin, nim: text })}
