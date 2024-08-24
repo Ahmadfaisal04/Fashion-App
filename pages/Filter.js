@@ -1,218 +1,402 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button, ScrollView } from 'react-native';
-// import RangeSlider from 'react-native-range-slider-expo';
+import React, { useState, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, PanResponder, Animated } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const FiltersScreen = () => {
-  const [priceRange, setPriceRange] = useState([78, 143]);
-  const [selectedColor, setSelectedColor] = useState('black');
-  const [selectedSize, setSelectedSize] = useState('M');
+
+const Filters = ({ navigation }) => { 
+  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 1000000]);
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedBrands, setSelectedBrands] = useState([]);
 
-  const colors = ['black', 'white', 'red', 'grey', 'beige', 'blue'];
+  const colors = ['#000000', '#0000FF', '#FF0000', '#8B4513', '#FFC0CB'];
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
-  const categories = ['All', 'Women', 'Men', 'Boys', 'Girls'];
+  const categories = ['All', 'Women', 'Men', 'Kids'];
+  const brands = ['Adidas', 'Nike', 'Eiger', 'Rei', 'Vans'];
+
+  const minPrice = 0;
+  const maxPrice = 3000000;
+  const rangeWidth = 320;
+
+  const minPriceAnimation = useRef(new Animated.Value(0)).current;
+  const maxPriceAnimation = useRef(new Animated.Value(rangeWidth)).current;
+
+  const updatePriceRange = () => {
+    minPriceAnimation.addListener(({ value }) => {
+      const min = Math.round((value / rangeWidth) * (maxPrice - minPrice) + minPrice);
+      const max = Math.round((maxPriceAnimation._value / rangeWidth) * (maxPrice - minPrice) + minPrice);
+      if (min > max) return;
+      setSelectedPriceRange([min, max]);
+    });
+
+    maxPriceAnimation.addListener(({ value }) => {
+      const min = Math.round((minPriceAnimation._value / rangeWidth) * (maxPrice - minPrice) + minPrice);
+      const max = Math.round((value / rangeWidth) * (maxPrice - minPrice) + minPrice);
+      if (min > max) return;
+      setSelectedPriceRange([min, max]);
+    });
+  };
+
+  const panResponderMin = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (e, gestureState) => {
+        const newMin = Math.max(0, Math.min(rangeWidth, gestureState.moveX));
+        minPriceAnimation.setValue(newMin);
+      },
+      onPanResponderRelease: () => {
+        updatePriceRange();
+      },
+    })
+  ).current;
+
+  const panResponderMax = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (e, gestureState) => {
+        const newMax = Math.max(minPriceAnimation._value, Math.min(rangeWidth, gestureState.moveX));
+        maxPriceAnimation.setValue(newMax);
+      },
+      onPanResponderRelease: () => {
+        updatePriceRange();
+      },
+    })
+  ).current;
+
+  const toggleSelection = (item, setSelectedItems) => {
+    setSelectedItems(prev =>
+      prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
+    );
+  };
+
+  const discardFilters = () => {
+    setSelectedPriceRange([minPrice, maxPrice]);
+    setSelectedColors([]);
+    setSelectedSizes([]);
+    setSelectedCategory('All');
+    setSelectedBrands([]);
+  };
+
+  const applyFilters = () => {
+    console.log('Filters Applied:', {
+      selectedPriceRange,
+      selectedColors,
+      selectedSizes,
+      selectedCategory,
+      selectedBrands,
+    });
+  };
+
+  // Function to format numbers as IDR
+  const formatRupiah = (amount) => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(amount);
+  };
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Text style={styles.label}>Price range</Text>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.priceLabel}>${priceRange[0]}</Text>
-          <RangeSlider
-            min={0}
-            max={200}
-            step={1}
-            low={priceRange[0]}
-            high={priceRange[1]}
-            style={styles.rangeSlider}
-            thumbStyle={styles.thumb}
-            lineStyle={styles.line}
-            selectedStyle={styles.selected}
-            onValueChanged={(low, high) => setPriceRange([low, high])}
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate('FavoriteScreen')} style={styles.backButton}>
+          <Icon name="arrow-back" size={30} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.pageTitle}>Filter</Text>
+      </View>
+
+      <Text style={styles.sectionTitle}>Price Range</Text>
+      <View style={styles.priceRangeContainer}>
+        <View style={styles.priceBar}>
+          <Animated.View
+            style={[
+              styles.priceIndicator,
+              {
+                left: minPriceAnimation,
+                backgroundColor: '#000',
+              },
+            ]}
+            {...panResponderMin.panHandlers}
           />
-          <Text style={styles.priceLabel}>${priceRange[1]}</Text>
+          <Animated.View
+            style={[
+              styles.priceIndicator,
+              {
+                left: maxPriceAnimation,
+                backgroundColor: '#000',
+              },
+            ]}
+            {...panResponderMax.panHandlers}
+          />
+          <View style={styles.priceRangeOverlay} />
         </View>
-        
-        <Text style={styles.label}>Colors</Text>
-        <View style={styles.colorsContainer}>
-          {colors.map(color => (
-            <TouchableOpacity
-              key={color}
-              style={[
-                styles.colorButton,
-                { backgroundColor: color, borderColor: selectedColor === color ? 'red' : 'transparent' }
-              ]}
-              onPress={() => setSelectedColor(color)}
-            />
-          ))}
-        </View>
-        
-        <Text style={styles.label}>Sizes</Text>
-        <View style={styles.sizesContainer}>
-          {sizes.map(size => (
-            <TouchableOpacity
-              key={size}
-              style={[
-                styles.sizeButton,
-                { backgroundColor: selectedSize === size ? '#FF3B30' : 'white' }
-              ]}
-              onPress={() => setSelectedSize(size)}
-            >
-              <Text style={{ color: selectedSize === size ? 'white' : 'black' }}>{size}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        
-        <Text style={styles.label}>Category</Text>
-        <View style={styles.categoriesContainer}>
-          {categories.map(category => (
-            <TouchableOpacity
-              key={category}
-              style={[
-                styles.categoryButton,
-                { backgroundColor: selectedCategory === category ? '#FF3B30' : 'white' }
-              ]}
-              onPress={() => setSelectedCategory(category)}
-            >
-              <Text style={{ color: selectedCategory === category ? 'white' : 'black' }}>{category}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        
-        <Text style={styles.label}>Brand</Text>
-        <View style={styles.brandContainer}>
-          <Text style={styles.brandText}>adidas Originals, Jack & Jones, s.Oliver</Text>
-        </View>
-        
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.discardButton} onPress={() => console.log('Discard')}>
-            <Text style={styles.buttonText}>Discard</Text>
+        <Text style={styles.priceRangeText}>
+          {formatRupiah(selectedPriceRange[0])} - {formatRupiah(selectedPriceRange[1])}
+        </Text>
+      </View>
+
+      <Text style={styles.sectionTitle}>Color</Text>
+      <View style={styles.colorContainer}>
+        {colors.map(color => (
+          <TouchableOpacity
+            key={color}
+            style={[
+              styles.colorCircle,
+              {
+                backgroundColor: color,
+                borderColor: selectedColors.includes(color) ? 'red' : '#fff', 
+              }
+            ]}
+            onPress={() => toggleSelection(color, setSelectedColors, selectedColors)}
+          />
+        ))}
+      </View>
+
+      <Text style={styles.sectionTitle}>Size</Text>
+      <View style={styles.sizeContainer}>
+        {sizes.map(size => (
+          <TouchableOpacity
+            key={size}
+            style={[
+              styles.sizeButton,
+              {
+                backgroundColor: selectedSizes.includes(size) ? 'red' : '#fff', 
+              }
+            ]}
+            onPress={() => toggleSelection(size, setSelectedSizes, selectedSizes)}
+          >
+            <Text style={[
+              styles.sizeText,
+              {
+                color: selectedSizes.includes(size) ? '#fff' : '#000',
+              }
+            ]}>
+              {size}
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.applyButton} onPress={() => console.log('Apply')}>
-            <Text style={styles.buttonText}>Apply</Text>
+        ))}
+      </View>
+
+      <Text style={styles.sectionTitle}>Category</Text>
+      <View style={styles.categoryContainer}>
+        {categories.map(category => (
+          <TouchableOpacity
+            key={category}
+            style={[
+              styles.categoryButton,
+              {
+                backgroundColor: selectedCategory === category ? 'red' : '#fff',
+              }
+            ]}
+            onPress={() => setSelectedCategory(category)}
+          >
+            <Text style={[
+              styles.categoryText,
+              {
+                color: selectedCategory === category ? '#fff' : '#000', 
+              }
+            ]}>
+              {category}
+            </Text>
           </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+        ))}
+      </View>
+
+      <Text style={styles.sectionTitle}>Brand</Text>
+      <View style={styles.brandContainer}>
+        {brands.map(brand => (
+          <TouchableOpacity
+            key={brand}
+            style={[
+              styles.brandButton,
+              {
+                backgroundColor: selectedBrands.includes(brand) ? 'red' : '#fff',
+              }
+            ]}
+            onPress={() => toggleSelection(brand, setSelectedBrands, selectedBrands)}
+          >
+            <Text style={[
+              styles.brandText,
+              {
+                color: selectedBrands.includes(brand) ? '#fff' : '#000',
+              }
+            ]}>
+              {brand}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.discardButton} onPress={discardFilters}>
+          <Text style={styles.discardText}>Discard</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
+          <Text style={styles.buttonText}>Apply</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    padding: 30,
   },
-  label: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 8
-  },
-  sliderContainer: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    marginBottom: 20,
   },
-  rangeSlider: {
+  backButton: {
+    padding: 10,
+    marginRight: -30,
+  },
+  pageTitle: {
+    fontSize: 25,
+    textAlign: 'center',
     flex: 1,
-    marginHorizontal: 8
   },
-  thumb: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#FF3B30',
-    borderRadius: 10
+  sectionTitle: {
+    fontSize: 20,
+    marginVertical: 12,
+    fontWeight: 'bold',
+    backgroundColor: '#f0f0f0',  
+    padding: 10,  
+    borderRadius: 5,
   },
-  line: {
-    height: 4,
-    backgroundColor: '#000000'
+  priceRangeContainer: {
+    alignItems: 'center',
+    flexGrow: 1,
   },
-  selected: {
-    backgroundColor: '#FF3B30'
+  priceBar: {
+    height: 40,
+    width: '100%',
+    maxWidth: 320,
+    backgroundColor: '#ddd',
+    borderRadius: 5,
+    position: 'relative',
+    justifyContent: 'center',
   },
-  priceLabel: {
-    fontSize: 16,
-    width: 50,
-    textAlign: 'center'
+  priceIndicator: {
+    width: 25,
+    height: 40,
+    backgroundColor: '#000',
+    position: 'absolute',
+    top: 0,
+    borderRadius: 5,
   },
-  colorsContainer: {
+  priceRangeOverlay: {
+    position: 'absolute',
+    height: '100%',
+    backgroundColor: '#000',
+    opacity: 0.1,
+    borderRadius: 5,
+  },
+  priceRangeText: {
+    fontSize: 18,
+    marginTop: 12,
+  },
+  colorContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 8
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    flexGrow: 1,
   },
-  colorButton: {
+  colorCircle: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    borderWidth: 2
+    margin: 12,
+    borderWidth: 3,
+    borderColor: '#fff',
   },
-  sizesContainer: {
+  sizeContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 8
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    flexGrow: 1,
   },
   sizeButton: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
+    margin: 6,
+    borderRadius: 8,
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black'
   },
-  categoriesContainer: {
+  sizeText: {
+    fontSize: 18,
+  },
+  categoryContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     flexWrap: 'wrap',
-    marginVertical: 8
+    alignItems: 'center',
+    flexGrow: 1,
   },
   categoryButton: {
-    width: '30%',
-    height: 50,
+    width: 90,
+    height: 45, 
+    margin: 6,
+    borderRadius: 8,
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'black',
-    marginVertical: 4
+  },
+  categoryText: {
+    fontSize: 18,
+
   },
   brandContainer: {
-    padding: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    flexGrow: 1,
+  },
+  brandButton: {
+    width: 90,
+    height: 45, 
+    margin: 6,
     borderRadius: 8,
-    marginVertical: 8
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   brandText: {
-    fontSize: 16,
-    color: '#555'
+    fontSize: 18,
   },
-  buttonsContainer: {
+  buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 16
+    justifyContent: 'space-around',
+    marginVertical: 20,
+    marginBottom: 45,
   },
   discardButton: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#ccc',
-    borderRadius: 8,
+    backgroundColor: 'transparent',  
+    borderColor: 'black',            
+    borderWidth: 2,                 
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 20,
     alignItems: 'center',
-    marginRight: 8
+    justifyContent: 'center',
   },
   applyButton: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#FF3B30',
-    borderRadius: 8,
+    backgroundColor: 'red',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 20,
     alignItems: 'center',
-    marginLeft: 8
+    justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold'
-  }
+    color: '#fff',
+    fontSize: 18,
+  },
+  discardText: {
+    color: 'black',
+    fontSize: 18,
+  },
 });
 
-export default FiltersScreen;
+export default Filters;

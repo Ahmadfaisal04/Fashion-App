@@ -13,40 +13,7 @@ const data = [
     { id: '6', title: 'Settings', subtitle: 'Notifications, password' }
 ];
 
-const ProfileItem = ({ title, subtitle }) => (
-    <TouchableOpacity style={styles.item}>
-        <View>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subtitle}>{subtitle}</Text>
-        </View>
-        <Image source={require('../assets/icon/right-icon.png')} style={styles.itemArrow} />
-    </TouchableOpacity>
-);
-
 const ProfileScreen = () => {
-    const [userName, setUserName] = useState('');
-    const [nim, setNim] = useState('');
-
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-
-    const fetchUserData = async () => {
-        try {
-            const storedUserName = await AsyncStorage.getItem("userName");
-            const storedNim = await AsyncStorage.getItem("userNim");
-
-            if (storedUserName !== null) {
-                setUserName(storedUserName);
-            }
-
-            if (storedNim !== null) {
-                setNim(storedNim);
-            }
-        } catch (error) {
-            console.log("Error retrieving user data:", error.message);
-        }
-    };
 
     const [fontsLoaded] = useFonts({
         'Bold': require('../assets/fonts/Metropolis-Bold.otf'),
@@ -71,16 +38,24 @@ const ProfileScreen = () => {
             <View style={styles.profileHeader}>
                 <Text style={styles.profileTitle}>My profile</Text>
                 <View style={styles.profileInfo}>
-                    <Image source={{ uri: `https://simakad.unismuh.ac.id/upload/mahasiswa/${nim}.jpg` }} style={styles.profileImage} />
+                    <Image source={require('../assets/Faisal.jpeg')} style={styles.profileImage} />
                     <View>
-                        <Text style={styles.profileName}>{userName}</Text>
-                        <Text style={styles.profileEmail}>{nim}</Text>
+                        <Text style={styles.profileName}>Ahmad Faisal</Text>
+                        <Text style={styles.profileEmail}>ahmadfaisal@gmail.com</Text>
                     </View>
                 </View>
             </View>
             <FlatList
                 data={data}
-                renderItem={({ item }) => <ProfileItem title={item.title} subtitle={item.subtitle} />}
+                renderItem={({ item }) => (
+                    <TouchableOpacity style={styles.item}>
+                        <View>
+                            <Text style={styles.title}>{item.title}</Text>
+                            <Text style={styles.subtitle}>{item.subtitle}</Text>
+                        </View>
+                        <Image source={require('../assets/icon/right-icon.png')} style={styles.itemArrow} />
+                    </TouchableOpacity>
+                )}
                 keyExtractor={item => item.id}
                 style={styles.list}
             />
@@ -109,7 +84,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
     profileTitle: {
-        fontSize: 28,
+        fontSize: 30,
         fontFamily: 'Bold',
     },
     profileInfo: {

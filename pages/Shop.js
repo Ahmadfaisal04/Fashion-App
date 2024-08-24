@@ -56,6 +56,16 @@ const DATA = [
     image: require('../assets/banner/image4.png'), 
     rating: 3,
   },
+  {
+    id: 'new3',
+    title: 'Casual Dress',
+    brand: 'Mango',
+    price: '25$',
+    originalPrice: '30$',
+    discount: '-20%',
+    image: require('../assets/banner/image4.png'), 
+    rating: 3,
+  },
 ];
 
 const renderStars = (rating) => {

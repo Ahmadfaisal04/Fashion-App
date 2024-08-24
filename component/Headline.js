@@ -23,7 +23,8 @@ const Headline = ({text = "Default Text", color = "black", fontSize = 34}) => {
        <SafeAreaView>
         <View style={{
             alignItems: 'Right',
-            marginLeft: 20
+            marginLeft: 20,
+            marginTop: 20,
         }}>
             <Text style={{
                 fontSize :  Number(fontSize),

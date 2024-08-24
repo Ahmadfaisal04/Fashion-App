@@ -10,12 +10,6 @@ const InputText = ({ placeholder, borderColor, placeholderTextColor, passwordRul
         'Black': require('../assets/fonts/Metropolis-Black.otf'),
     });
 
-    const [inputValue, setInputValue] = useState(value);
-
-    const handleTextChange = (text) => {
-        setInputValue(text);
-        onChangeText(text);
-    };
 
     if (!fontsLoaded) {
         return (
@@ -30,9 +24,6 @@ const InputText = ({ placeholder, borderColor, placeholderTextColor, passwordRul
             <TextInput
                 placeholder={placeholder}
                 placeholderTextColor={placeholderTextColor}
-                value={inputValue}
-                
-                onChangeText={handleTextChange}
                 secureTextEntry={passwordRules === '*' ? true : false}
                 style={[styles.input, { borderColor, fontFamily: 'Medium' }]}
             />

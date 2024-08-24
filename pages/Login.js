@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Image, Alert } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Headline from '../component/Headline';
 import InputText from '../component/Input-text';
@@ -11,45 +8,7 @@ import ButtonComponent from '../component/Button';
 import Konfirmasi from '../component/Konfirmasi';
 import IconButton from '../component/Icon-Button';
 
-const Login = () => {
-  const [formLogin, setFormLogin] = useState({
-    nim: "",
-    password: "",
-  });
-
-  const navigation = useNavigation();
-
-  const onSubmit = () => {
-    const { nim, password } = formLogin;
-    if (!nim || !password) {
-      Alert.alert('Error', 'All fields are required!');
-      return;
-    }
-
-    axios.post('https://api.beasiswa.unismuh.ac.id/api/login', {
-      username: nim,
-      password: password
-    })
-    .then(async (response) => {
-      if (response.status === 200) {
-        await AsyncStorage.setItem("userName", response.data.data.nama);
-        await AsyncStorage.setItem("userNim", nim);
-
-        Alert.alert('Success', 'Logging in...');
-
-        setTimeout(() => {
-          navigation.navigate("MyTabs");
-        }, 2000);
-      } else {
-        Alert.alert('Error', 'Invalid NIM or password!');
-      }
-    })
-    .catch(error => {
-      console.log("Error during login:", error.message);
-      Alert.alert('Error', 'Failed to log in. Please try again later.');
-    });
-  };
-
+const Login = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View>
@@ -58,12 +17,12 @@ const Login = () => {
         </View>
 
         <View>
+          
           <InputText
-            placeholder="Nim"
+            placeholder="Email"
             borderColor="gray"
+            keyboardType="email-address"
             placeholderTextColor="gray"
-            onChangeText={(text) => setFormLogin({ ...formLogin, nim: text })}
-            value={formLogin.nim}
           />
 
           <InputText
@@ -71,13 +30,13 @@ const Login = () => {
             borderColor="gray"
             placeholderTextColor="gray"
             passwordRules="*"
-            onChangeText={(text) => setFormLogin({ ...formLogin, password: text })}
-            value={formLogin.password}
+            secureTextEntry
           />
+
         </View>
 
         <View style={{ marginTop: -10, marginLeft: 130 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Forgot Password')}>
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
             <Konfirmasi text="Forgot your password?" />
             <Image
               source={require('../assets/round-arrow_right_alt-24px.png')}
@@ -86,8 +45,8 @@ const Login = () => {
           </TouchableOpacity>
         </View>
 
-        <View>
-          <TouchableOpacity onPress={onSubmit}>
+        <View style={{ marginTop: -12 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('MyTabs')}>
             <ButtonComponent backgroundColor="#FF0000" text="LOGIN" />
           </TouchableOpacity>
         </View>
@@ -96,12 +55,12 @@ const Login = () => {
           <Konfirmasi text="Or login with social account" />
         </View>
 
-        <View style={{ marginTop: 0 }}>
+        <View>
           <View
             style={{
               flexDirection: 'row',
               gap: 20,
-              marginTop: -25,
+              marginTop: -20,
               justifyContent: 'center',
             }}
           >

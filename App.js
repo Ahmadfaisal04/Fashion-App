@@ -18,16 +18,15 @@ import ProfilNonAktif from './assets/icon/profil-inactive.png';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import ForgotPassword from './pages/ForgotPassword';
 import Home from './pages/Home';
-import VisualSearch from './pages/VisualSearch';
 import Shop from './pages/Shop';
 import Bag from './pages/Bag';
-import Favorites from './pages/Favorites';
+import FavoriteScreen from './pages/Favorites';
 import Profile from './pages/Profile';
-import Camera from './pages/Camera';
 import HomeMain from './pages/HomeMain';
 import CategoriesScreen from './pages/Categories';
+import Filters from './pages/Filter';
+import ForgotPassword from './pages/ForgotPassword';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -35,7 +34,7 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen name="HomeMain" component={HomeMain} />
     </Stack.Navigator>
   );
@@ -44,8 +43,17 @@ const HomeStack = () => {
 const ShopStack = () => {
   return (
     <Stack.Navigator initialRouteName="Shop">
-      <Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
+      <Stack.Screen name="ShopScreen" component={Shop} options={{ headerShown: false }} />
       <Stack.Screen name="Categories" component={CategoriesScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const FavoriteStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Favorite">
+      <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Filters" component={Filters} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
@@ -85,7 +93,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Favorites"
-        component={Favorites}
+        component={FavoriteStack}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
@@ -111,19 +119,12 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignUp">
-        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
         <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false}}/>
-        <Stack.Screen name="HomeMain" component={HomeMain}  options={{ headerShown: false}} />
-        <Stack.Screen name="Forgot Password" component={ForgotPassword} />
-        <Stack.Screen name="VisualSearch" component={VisualSearch} />
-        <Stack.Screen name="Shop" component={Shop} />
-        <Stack.Screen name="Categories" component={CategoriesScreen} />
-        <Stack.Screen name="Bag" component={Bag} />
-        <Stack.Screen name="Favorites" component={Favorites} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Camera" component={Camera} />
+        <Stack.Screen name="Filters" component={Filters}  />
+        <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Image, Alert } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 
 import Headline from '../component/Headline';
 import InputText from '../component/Input-text';
@@ -10,44 +8,7 @@ import ButtonComponent from '../component/Button';
 import Konfirmasi from '../component/Konfirmasi';
 import IconButton from '../component/Icon-Button';
 
-const SignUp = () => {
-  const [formSignUp, setForm] = useState({
-    nim: '',
-    password: '',
-  });
-
-  const navigation = useNavigation();
-
-  const onSubmit = () => {
-    const { nim, password } = formSignUp;
-    if (!nim || !password) {
-      Alert.alert('Error', 'All fields are required!');
-      return;
-    }
-
-    axios.post('https://api.beasiswa.unismuh.ac.id/api/signup', {
-      username: nim,
-      password: password
-    })
-    .then(async (response) => {
-      if (response.status === 200) {
-        await AsyncStorage.setItem("userName", response.data.data.nama);
-        await AsyncStorage.setItem("userNim", nim);
-
-        Alert.alert('Success', 'Logging in...');
-
-        setTimeout(() => {
-          navigation.navigate("Login");
-        }, 3000);
-      } else {
-        Alert.alert('Error', 'Invalid NIM or password!');
-      }
-    })
-    .catch(error => {
-      console.log("Error during login:", error.message);
-      Alert.alert('Error', 'Failed to log in. Please try again later.');
-    });
-  };
+const SignUp = ({navigation}) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -58,12 +19,16 @@ const SignUp = () => {
 
         <View>
           <InputText
-            placeholder="Nim"
+            placeholder="Username"
             borderColor="gray"
-            keyboardType="numeric"
             placeholderTextColor="gray"
-            onChangeText={(hasil) => setForm({ ...formSignUp, nim: hasil })}
-            value={formSignUp.nim}
+          />
+
+          <InputText
+            placeholder="Email"
+            borderColor="gray"
+            keyboardType="email-address"
+            placeholderTextColor="gray"
           />
 
           <InputText
@@ -71,8 +36,7 @@ const SignUp = () => {
             borderColor="gray"
             placeholderTextColor="gray"
             passwordRules="*"
-            onChangeText={(hasil) => setForm({ ...formSignUp, password: hasil })}
-            value={formSignUp.password}
+            secureTextEntry
           />
         </View>
 
@@ -89,8 +53,8 @@ const SignUp = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ marginTop: 5 }}>
-          <TouchableOpacity onPress={onSubmit}>
+        <View style={{ marginTop: -5 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <ButtonComponent backgroundColor="#FF0000" text="SIGN UP" />
           </TouchableOpacity>
         </View>
