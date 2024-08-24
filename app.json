@@ -7,11 +7,11 @@
         "READ_EXTERNAL_STORAGE"
       ]
     },
-    "name": "michat",
-    "slug": "michat",
+    "name": "Fashion App",
+    "slug": "Fashion App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/favicon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -32,7 +32,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/michat.png"
+      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
